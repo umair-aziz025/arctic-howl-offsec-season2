@@ -5,8 +5,8 @@
   ### Tundra Realm · Season 2 · Proving Grounds: The Gauntlet
 
   ![Status](https://img.shields.io/badge/Season%202-Active-00EAFF?style=flat-square)
-  ![Challenges](https://img.shields.io/badge/Completed-2%2F5-BAFF29?style=flat-square)
-  ![Score](https://img.shields.io/badge/Score-90%2F90-00EAFF?style=flat-square)
+  ![Challenges](https://img.shields.io/badge/Completed-3%2F5-BAFF29?style=flat-square)
+  ![Score](https://img.shields.io/badge/Score-160%2F160-00EAFF?style=flat-square)
 </div>
 
 ---
@@ -86,13 +86,40 @@ Arctic Howl is a high-stakes cyber defense simulation featuring escalating weekl
 
 ---
 
-### 🔒 [Week 2 — Expanse Surveyor](./WEEK%202%20-%20Expanse%20Surveyor) *(Coming Soon)*
+### ✅ [Week 2 — Expanse Surveyor](./WEEK%202%20-%20Expanse%20Surveyor)
 
 <img src="./assets/expanse-surveyor.jpg" alt="Week 2 - Expanse Surveyor" width="100%">
 
-**Status:** UPCOMING &nbsp;|&nbsp; **Difficulty:** Medium
+**Status:** COMPLETED &nbsp;|&nbsp; **Category:** Android Malware Analysis · HAR Forensics · APK Reverse Engineering &nbsp;|&nbsp; **Difficulty:** Medium &nbsp;|&nbsp; **Score:** 70/70
 
-*A deeper investigation into the Tundra Realm reveals new threats lurking beneath the frozen surface.*
+**Scenario:** An Expanse Surveyor installed a Research Gallery app (Fossify Gallery) on his Android device to organize expedition findings. Within 48 hours, anomalous outbound connections surfaced. Analysis of the trojanized APK and HAR network capture reveals a sophisticated Android malware campaign: GitHub Gist C2 resolution → 15x Base64 + XOR decryption → dynamic DEX payload loading → file reconnaissance → photo/video exfiltration → passive GPS tracking.
+
+**Key Skills:**
+- Android APK decompilation (JADX)
+- HAR file traffic analysis
+- Protobuf binary decoding
+- Multi-layer Base64 + XOR decryption
+- DEX payload extraction and in-memory execution analysis
+- Android permission model and PASSIVE_PROVIDER GPS strategy
+
+**Key Findings:**
+- ✅ C2 resolution: GitHub Gist → 15x Base64 → XOR "blastoise" → `446d9f29543f.ngrok-free.app`
+- ✅ Dynamic payload delivery via PayloadResponse protobuf + InMemoryDexClassLoader
+- ✅ 3 DEX modules: FileScanner (recon), MetaDataParser (file theft), LocationTracker (GPS)
+- ✅ Files exfiltrated: JPEG photo (Sony XQ-BC62) + MP4 video to `/api/backup/chunk`
+- ✅ GPS anomaly: 12/15 geotag requests fail due to missing ACCESS_BACKGROUND_LOCATION
+- ✅ Success window (20:45:20-20:46:20Z) correlates with YouTube activating GPS via PASSIVE_PROVIDER
+- ✅ All 7 challenge questions answered correctly
+
+**Novel Techniques Discovered:**
+- 15-layer Base64 + XOR encryption for C2 address obfuscation
+- In-memory DEX execution via InMemoryDexClassLoader (no disk artifacts)
+- PASSIVE_PROVIDER GPS piggyback strategy to avoid background location permission
+- Server-driven payload architecture where C2 controls all module execution
+
+**Files:**
+- [Investigation Report](./WEEK%202%20-%20Expanse%20Surveyor/INVESTIGATION_REPORT.md)
+- [Challenge README](./WEEK%202%20-%20Expanse%20Surveyor/README.md)
 
 ---
 
@@ -122,7 +149,7 @@ Arctic Howl is a high-stakes cyber defense simulation featuring escalating weekl
 |------|-----------|--------|----------|------------|-------|
 | 0 | Tutorial Challenge | ✅ Completed | Log Analysis / Encoding | Beginner | 50/50 |
 | 1 | First Tracks | ✅ Completed | Malware Analysis / PCAP / IR | Easy | 40/40 |
-| 2 | Expanse Surveyor | 🔒 Upcoming | TBA | Medium | — |
+| 2 | Expanse Surveyor | ✅ Completed | Android Malware / HAR / APK RE | Medium | 70/70 |
 | 3 | Cold Access | 🔒 Upcoming | TBA | Hard | — |
 | 4 | Trusted Trouble | 🔒 Locked | TBA | Expert | — |
 
@@ -137,10 +164,12 @@ Through these challenges, I'm developing expertise in:
 - **Malware Analysis:** Threat detection and multi-stage campaign reconstruction
 - **PCAP Analysis:** Network traffic investigation and C2 identification
 - **Mac Security:** macOS artifact locations, AppleScript abuse, Xcode project threats
+- **Android Security:** APK reverse engineering, DEX analysis, Android permission model
 - **Log Analysis:** Web server log parsing and attack pattern detection
-- **Encoding/Decoding:** Base64, hex encoding schemes and nested obfuscation
+- **Encoding/Decoding:** Base64, hex encoding schemes, nested obfuscation, XOR encryption
 - **Web Security:** Path traversal and directory traversal attacks
-- **Supply Chain Security:** Git hook injection and trojanized project detection
+- **Supply Chain Security:** Git hook injection, trojanized project/app detection
+- **Protocol Analysis:** Protobuf binary decoding, HAR traffic forensics
 - **Detection Engineering:** YARA rules, Sigma rules, Snort rules
 - **Python Automation:** Security tooling and scripting
 
@@ -151,10 +180,12 @@ Through these challenges, I'm developing expertise in:
 - **Network Analysis:** Wireshark, tshark, Scapy
 - **Scripting:** Python 3, Bash, PowerShell
 - **Encoding/Decoding:** base64, xxd, Python
-- **Forensics:** Log analysis, artifact recovery, PCAP analysis
+- **Forensics:** Log analysis, artifact recovery, PCAP analysis, HAR forensics
+- **Android RE:** JADX, DEX analysis, InMemoryDexClassLoader, Protobuf decoding
 - **Detection:** YARA rules, Sigma rules, Snort rules, MITRE ATT&CK
 - **Web Security:** OWASP practices, access log analysis
 - **Mac Security:** AppleScript analysis, macOS artifact investigation
+- **Mobile Security:** Android permission analysis, GPS provider exploitation
 
 ---
 
@@ -162,10 +193,11 @@ Through these challenges, I'm developing expertise in:
 
 - ✅ Week 0: Identified path traversal attack and SSH key exfiltration from access logs
 - ✅ Week 1: Reconstructed full multi-stage Mac malware campaign from PCAP — 6/6 questions
+- ✅ Week 2: Reverse-engineered trojanized Android APK with dynamic DEX payloads — 7/7 questions
 - ✅ Discovered novel techniques: triple hex encoding, 7× nested Base64, Git hook worm
+- ✅ Discovered novel techniques: 15× Base64 + XOR C2 obfuscation, PASSIVE_PROVIDER GPS piggyback
 - ✅ Documented complete C2 infrastructure with all endpoints mapped
 - ✅ Created comprehensive detection rules (YARA, Sigma, Snort) for identified malware
-- ✅ Total score: 90/90 across completed challenges
 
 ---
 
@@ -184,9 +216,14 @@ arctic-howl-offsec-season2/
 ├── WEEK 0 - Tutorial Challenge/
 │   ├── README.md                          # Challenge overview
 │   └── INVESTIGATION_REPORT.md           # Full forensic analysis
-└── WEEK 1 - First Tracks/
-    ├── README.md                          # Challenge overview
-    └── INVESTIGATION_REPORT.md           # Full forensic analysis (6/6 questions)
+├── WEEK 1 - First Tracks/
+│   ├── README.md                          # Challenge overview
+│   └── INVESTIGATION_REPORT.md           # Full forensic analysis (6/6 questions)
+├── WEEK 2 - Expanse Surveyor/
+│   ├── README.md                          # Challenge overview
+│   └── INVESTIGATION_REPORT.md           # Full forensic analysis (7/7 questions)
+├── WEEK 3 - Cold Access/                  # Upcoming challenge folder
+└── WEEK 4 - Trusted Trouble/              # Upcoming challenge folder
 ```
 
 ---
@@ -202,6 +239,8 @@ cd arctic-howl-offsec-season2
 cd "WEEK 0 - Tutorial Challenge"
 # or
 cd "WEEK 1 - First Tracks"
+# or
+cd "WEEK 2 - Expanse Surveyor"
 
 # Read the challenge writeup
 # Check README.md for challenge overview
@@ -212,13 +251,24 @@ cd "WEEK 1 - First Tracks"
 
 ## 📚 Learning Resources
 
-- [OffSec Proving Grounds](https://www.offsec.com/)
-- [MITRE ATT&CK](https://attack.mitre.org/)
-- [OWASP Top 10](https://owasp.org/www-project-top-ten/)
+- [OffSec Platform](https://www.offsec.com/) (Official platform for Proving Grounds and challenge practice)
+- [OffSec Proving Grounds](https://www.offsec.com/labs/) (Hands-on offensive security labs)
+- [MITRE ATT&CK](https://attack.mitre.org/) (Technique mapping for malware and intrusion behavior)
+- [OWASP Top 10](https://owasp.org/www-project-top-ten/) (Web risk baseline used in Week 0)
+- [OWASP Web Security Testing Guide (WSTG)](https://owasp.org/www-project-web-security-testing-guide/)
+- [PortSwigger Path Traversal Guide](https://portswigger.net/web-security/file-path-traversal)
 - [Wireshark User Guide](https://www.wireshark.org/docs/wsug_html_chunked/)
-- [PCAP Analysis Techniques](https://www.malware-traffic-analysis.net/)
-- [SANS Internet Storm Center](https://isc.sans.edu/)
-- [Apple Developer Docs: Xcode Build Phases](https://developer.apple.com/documentation/xcode)
+- [tshark Documentation](https://www.wireshark.org/docs/man-pages/tshark.html)
+- [Malware Traffic Analysis](https://www.malware-traffic-analysis.net/) (PCAP workflow and traffic analysis practice)
+- [Apple Developer Documentation](https://developer.apple.com/documentation/) (Mac/Xcode context from Week 1)
+- [Git Hooks Documentation](https://git-scm.com/docs/githooks) (Relevant for pre-commit hook abuse analysis)
+- [Android Developers: App Manifest Overview](https://developer.android.com/guide/topics/manifest/manifest-intro)
+- [Android Developers: Request App Permissions](https://developer.android.com/training/permissions/requesting)
+- [Android Developers: Location Permissions](https://developer.android.com/develop/sensors-and-location/location/permissions)
+- [OWASP Mobile Application Security Testing Guide (MASTG)](https://mas.owasp.org/MASTG/)
+- [JADX GitHub Repository](https://github.com/skylot/jadx)
+- [Protocol Buffers Developer Guide](https://protobuf.dev/programming-guides/proto3/)
+- [Chrome DevTools Network Reference](https://developer.chrome.com/docs/devtools/network/reference/) (HAR/network inspection)
 - [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework)
 - [CISA Cybersecurity Advisories](https://www.cisa.gov/news-events/cybersecurity-advisories)
 
@@ -246,6 +296,6 @@ If you find these solutions helpful, please consider giving this repository a st
 
 ---
 
-*Last Updated: March 5, 2026*
+*Last Updated: March 12, 2026*
 
 > *"Will you uncover the truth before the storm consumes the Expanse?"*
