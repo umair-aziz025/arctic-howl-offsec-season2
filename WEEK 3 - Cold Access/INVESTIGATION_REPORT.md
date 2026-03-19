@@ -63,7 +63,7 @@ Welcome to Arctic Howl.
 
 ### Step 5: Verify every question with evidence
 
-1. Map each question to at least one direct artifact (packet, code, disassembly line).
+1. Map each question to at least one direct artifact (packets, code, disassembly line).
 2. Avoid assumptions from public PoCs unless supported by local evidence.
 3. Finalize answer set with explicit proof and sanity checks.
 
