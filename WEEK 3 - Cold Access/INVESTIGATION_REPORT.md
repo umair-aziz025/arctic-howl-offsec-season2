@@ -31,7 +31,6 @@ Welcome to Arctic Howl.
 
 **Evidence Artifacts:**
 - `initial_access.pcapng`
-- `export.txt`
 - extracted malicious page (`exploit.html`)
 
 ---
