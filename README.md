@@ -5,8 +5,8 @@
   ### Tundra Realm · Season 2 · Proving Grounds: The Gauntlet
 
   ![Status](https://img.shields.io/badge/Season%202-Active-00EAFF?style=flat-square)
-  ![Challenges](https://img.shields.io/badge/Completed-3%2F5-BAFF29?style=flat-square)
-  ![Score](https://img.shields.io/badge/Score-160%2F160-00EAFF?style=flat-square)
+  ![Challenges](https://img.shields.io/badge/Completed-4%2F5-BAFF29?style=flat-square)
+  ![Score](https://img.shields.io/badge/Score-170%2F170-00EAFF?style=flat-square)
 </div>
 
 ---
@@ -123,13 +123,32 @@ Arctic Howl is a high-stakes cyber defense simulation featuring escalating weekl
 
 ---
 
-### 🔒 [Week 3 — Cold Access](./WEEK%203%20-%20Cold%20Access) *(Coming Soon)*
+### ✅ [Week 3 — Cold Access](./WEEK%203%20-%20Cold%20Access)
 
 <img src="./assets/cold-access.jpg" alt="Week 3 - Cold Access" width="100%">
 
-**Status:** UPCOMING &nbsp;|&nbsp; **Difficulty:** Hard
+**Status:** COMPLETED &nbsp;|&nbsp; **Category:** Browser Exploit Analysis / PCAP Forensics / Shellcode RE &nbsp;|&nbsp; **Difficulty:** Hard &nbsp;|&nbsp; **Score:** 10/10
 
-*The adversary strengthens their foothold. Advanced techniques required to breach the frozen perimeter.*
+**Scenario:** A suspicious browser-based initial access event was traced to phishing-delivered email lure activity. Analysis of PCAP artifacts revealed a V8 type confusion exploit chain (DOMRect/AudioBuffer), WebAssembly-assisted JIT spraying, import dispatch table hijacking, and in-memory shellcode execution calling WinExec with an embedded `ping db` command.
+
+**Key Skills:**
+- POP3 + HTTP forensic timeline reconstruction
+- Browser exploit extraction from PCAP
+- WebAssembly payload triage and shellcode reconstruction
+- x64 disassembly and calling convention analysis
+- Evidence-based challenge answer validation
+
+**Key Findings:**
+- ✅ Initial vector: phishing email via POP3 leading to malicious HTTP page
+- ✅ Exploit success notification via ICMP
+- ✅ CVE mapped to `CVE-2024-5830`
+- ✅ Enabling instruction: `mov byte ptr [rcx + 8], 0`
+- ✅ Final command confirmed from payload bytes: `ping db`
+- ✅ All 10 challenge questions answered correctly
+
+**Files:**
+- [Investigation Report](./WEEK%203%20-%20Cold%20Access/INVESTIGATION_REPORT.md)
+- [Challenge README](./WEEK%203%20-%20Cold%20Access/README.md)
 
 ---
 
@@ -150,7 +169,7 @@ Arctic Howl is a high-stakes cyber defense simulation featuring escalating weekl
 | 0 | Tutorial Challenge | ✅ Completed | Log Analysis / Encoding | Beginner | 50/50 |
 | 1 | First Tracks | ✅ Completed | Malware Analysis / PCAP / IR | Easy | 40/40 |
 | 2 | Expanse Surveyor | ✅ Completed | Android Malware / HAR / APK RE | Medium | 70/70 |
-| 3 | Cold Access | 🔒 Upcoming | TBA | Hard | — |
+| 3 | Cold Access | ✅ Completed | Browser Exploit / PCAP / Shellcode RE | Hard | 10/10 |
 | 4 | Trusted Trouble | 🔒 Locked | TBA | Expert | — |
 
 ---
@@ -182,6 +201,7 @@ Through these challenges, I'm developing expertise in:
 - **Encoding/Decoding:** base64, xxd, Python
 - **Forensics:** Log analysis, artifact recovery, PCAP analysis, HAR forensics
 - **Android RE:** JADX, DEX analysis, InMemoryDexClassLoader, Protobuf decoding
+- **Browser Exploit RE:** WebAssembly triage, JIT spraying analysis, x64 shellcode disassembly
 - **Detection:** YARA rules, Sigma rules, Snort rules, MITRE ATT&CK
 - **Web Security:** OWASP practices, access log analysis
 - **Mac Security:** AppleScript analysis, macOS artifact investigation
@@ -194,8 +214,10 @@ Through these challenges, I'm developing expertise in:
 - ✅ Week 0: Identified path traversal attack and SSH key exfiltration from access logs
 - ✅ Week 1: Reconstructed full multi-stage Mac malware campaign from PCAP — 6/6 questions
 - ✅ Week 2: Reverse-engineered trojanized Android APK with dynamic DEX payloads — 7/7 questions
+- ✅ Week 3: Reconstructed V8 exploit chain from PCAP and validated in-memory command execution — 10/10 questions
 - ✅ Discovered novel techniques: triple hex encoding, 7× nested Base64, Git hook worm
 - ✅ Discovered novel techniques: 15× Base64 + XOR C2 obfuscation, PASSIVE_PROVIDER GPS piggyback
+- ✅ Discovered novel techniques: DOMRect/AudioBuffer confusion, TrustedCage dispatch pivot, JIT shellcode command extraction
 - ✅ Documented complete C2 infrastructure with all endpoints mapped
 - ✅ Created comprehensive detection rules (YARA, Sigma, Snort) for identified malware
 
@@ -222,7 +244,9 @@ arctic-howl-offsec-season2/
 ├── WEEK 2 - Expanse Surveyor/
 │   ├── README.md                          # Challenge overview
 │   └── INVESTIGATION_REPORT.md           # Full forensic analysis (7/7 questions)
-├── WEEK 3 - Cold Access/                  # Upcoming challenge folder
+├── WEEK 3 - Cold Access/
+│   ├── README.md                          # Challenge overview
+│   └── INVESTIGATION_REPORT.md           # Full forensic analysis (10/10 questions)
 └── WEEK 4 - Trusted Trouble/              # Upcoming challenge folder
 ```
 
