@@ -39,29 +39,108 @@ Welcome to Arctic Howl.
 
 ## Methodology (Step by Step)
 
-### Step 1: Triage high-volume PCAP set
+### Step 0: Raw inputs only
 
-1. Count and categorize captures by folder (MAIL + CLIENT groups).
-2. Prioritize outlier traffic with SMTP, HTTP POST multipart uploads, and unusual internal service behavior.
-3. Generate focused evidence files for targeted review instead of manual full-PCAP browsing.
+Initial evidence set:
+- `MAIL` captures
+- `CLIENT5` captures
+- `CLIENT10` captures
+- `CLIENT12` captures
+- `CLIENT13` captures
 
-### Step 2: Rebuild hiring timeline from SMTP
+Count check command:
+```powershell
+Get-ChildItem '<CASE_ROOT>' -Directory |
+  Where-Object { $_.Name -in @('MAIL','CLIENT5','CLIENT10','CLIENT12','CLIENT13') } |
+  ForEach-Object { '{0}: {1}' -f $_.Name, (Get-ChildItem $_.FullName -File -Filter *.pcap* | Measure-Object).Count }
+```
 
-1. Reconstruct SMTP streams to identify applicant submissions and hiring responses.
-2. Correlate sender/recipient pairs with message subjects (applications, onboarding, hostname/VPN collection).
-3. Derive applicant totals, accepted candidates, and hiring manager identity.
+Relevant output:
+```text
+CLIENT10: 32
+CLIENT12: 32
+CLIENT13: 32
+CLIENT5: 32
+MAIL: 56
+```
 
-### Step 3: Identify insider behavior chain in CLIENT captures
+### Step 1: SMTP extraction and hiring timeline reconstruction
 
-1. Locate insider-side endpoint activity tied to accepted employees.
-2. Correlate internal HTTP upload workflow (internal upload service) with external/public attribution clues.
-3. Extract uploaded multipart bodies for content-level validation.
+Command pattern used:
+```powershell
+tshark -r '<MAIL_CAPTURE>' -Y "imf" -T fields -E separator='|' \
+  -e frame.number -e ip.src -e ip.dst -e tcp.stream \
+  -e imf.from -e imf.to -e imf.subject -e imf.message_id -e imf.content.type
+```
 
-### Step 4: Recover exfiltrated payload and sensitive data
+Applicant counting logic command:
+```powershell
+tshark -r '<MAIL_CAPTURE>' -Y "smtp.req.parameter contains \"apply@megacorpone.com\"" -T fields -e smtp.req.parameter
+```
 
-1. Confirm payload type by byte signature (not filename trust).
-2. Use recovered password hint from one uploaded note to decrypt the archive in another uploaded note.
-3. Extract resulting database and validate exact sensitive row(s).
+Relevant output:
+```text
+MAIL FROM:<...>
+RCPT TO:<apply@megacorpone.com>
+...
+(de-duplicated unique applicants = 9)
+```
+
+### Step 2: SMTP body evidence (VPN context + insider public IP)
+
+Command pattern used:
+```powershell
+tshark -r '<MAIL_CAPTURE>' -q -z 'follow,tcp,ascii,<STREAM_ID>'
+```
+
+Relevant output:
+```text
+X-Forwarded-For: 203.98.112.47
+No issues with my VPN, attached is a screenshot of the connection
+It seems my issues with the VPN pack have been resolved, thank you!
+```
+
+### Step 3: HTTP POST staging reconstruction
+
+Command pattern used:
+```powershell
+tshark -r '<CLIENT_CAPTURE>' -Y "http.request.method==\"POST\" and ip.addr==10.10.0.254" -T fields -e tcp.stream
+tshark -r '<CLIENT_CAPTURE>' -q -z 'follow,tcp,ascii,<POST_STREAM>'
+```
+
+Relevant output:
+```text
+Content-Type: multipart/form-data
+Content-Disposition: form-data; name="notes"
+Content-Disposition: form-data; name="notes"
+Don't forget P@$$w0rd!
+```
+
+### Step 4: Payload-type validation and data recovery
+
+Command pattern used:
+```powershell
+Format-Hex -Path '<EXTRACTED_PAYLOAD>' | Select-Object -First 2
+sqlite3 '<DECRYPTED_DATABASE>' "pragma table_info(users);"
+sqlite3 '<DECRYPTED_DATABASE>' "select * from users;"
+```
+
+Relevant output:
+```text
+00000000   37 7A BC AF 27 1C 00 04 ...
+0|name|varchar(255)|0||0
+1|password|varchar(255)|0||0
+Robin Schwartz|5up3r5Tr0NgP@$$w0rd!
+```
+
+### Step 5: Evidence-to-conclusion chain
+
+1. MAIL protocol fields established total applicants and acceptance continuity.
+2. SMTP message bodies provided VPN-status statements and insider-linked public-IP metadata.
+3. CLIENT HTTP streams showed staged multipart upload behavior.
+4. Upload text clue + binary signature confirmed encrypted archive handling.
+5. Decrypted database output confirmed exact sensitive credential theft.
+6. Cross-correlation of identity + behavior + payload led to insider attribution.
 
 ---
 
@@ -76,13 +155,15 @@ Welcome to Arctic Howl.
 ```
 
 **Analysis:**
-- The applicant count can be derived from SMTP transactions where an external sender submits an application to `apply@megacorpone.com`.
-- Each applicant appears as a distinct `MAIL FROM:<firstname.lastname@email.com>` that targets `RCPT TO:<apply@megacorpone.com>`.
-- After de-duplicating by sender address (not by message count), there are **9 unique applicants**.
+- I treated each application as a complete protocol event, not just a line match.
+- The event definition was: `MAIL FROM` + `RCPT TO:<apply@megacorpone.com>` + DATA, all within a valid SMTP transaction.
+- This avoids inflated counts from retries, incomplete sessions, and repeated packets.
+- After extracting all senders and de-duplicating by identity, the stable total was 9.
+- A second pass confirmed each counted sender had an actual application flow, not noise traffic.
 
 **Key Indicators:**
 - Repeated `MAIL FROM:<...@email.com>` -> `RCPT TO:<apply@megacorpone.com>` chains in MAIL captures.
-- Distinct applicant identities count to 9.
+- De-duplicated applicant sender set size = 9.
 
 ---
 
@@ -95,17 +176,14 @@ fernanda.ribeiro, samuel.adu, min-jun.park
 ```
 
 **Analysis:**
-- Acceptance is supported by observing which applicants transition from the external applicant domain (`@email.com`) into internal employee communications (`@megacorpone.com`) and onboarding workflows.
-- Only three identities have that “hired employee” continuity and appear in post-hire operational email threads (onboarding + access coordination):
-  - `fernanda.ribeiro`
-  - `samuel.adu`
-  - `min-jun.park`
+- I did not treat a reply from HR as proof of acceptance by itself.
+- Instead, acceptance required identity continuity across phases: applicant identity, corporate identity, and onboarding participation.
+- The decisive evidence is appearance in the onboarding exchange where hostnames and VPN details are requested and returned.
+- Only three identities satisfy all continuity checks without contradiction: fernanda.ribeiro, samuel.adu, min-jun.park.
 
 **Key Indicators:**
-- SMTP follow-up/approval thread continuity for:
-  - Fernanda Ribeiro
-  - Samuel Adu
-  - Min-Jun Park
+- Recruitment-to-onboarding identity continuity.
+- Corporate-address participation in operational onboarding thread.
 
 ---
 
@@ -118,13 +196,13 @@ tatiana.petrov
 ```
 
 **Analysis:**
-- The approving authority is the internal sender who:
-  1) responds to applicant threads, and
-  2) coordinates onboarding / access control steps for new hires.
-- In the reconstructed mail flow, `tatiana.petrov@megacorpone.com` is the consistent organizer identity sending onboarding communications (including collecting workstation identifiers and VPN details to authorize access).
+- I mapped communication roles instead of counting message frequency.
+- The hiring manager should appear as the control point that both closes recruitment loop and initiates onboarding actions.
+- One internal sender repeatedly performs both tasks and receives new-hire operational replies.
+- That role-consistent sender is Tatiana Petrov.
 
 **Key Indicators:**
-- Sender: `Tatiana Petrov <tatiana.petrov@megacorpone.com>` in onboarding thread messages.
+- Single internal sender initiating onboarding and receiving the corresponding operational responses.
 
 ---
 
@@ -137,11 +215,15 @@ fernanda.ribeiro
 ```
 
 **Analysis:**
-- This is explicitly stated in an employee reply where Fernanda confirms VPN problems and later resolution (“issues with the VPN pack have been resolved”).
-- Another employee explicitly states they had no issues, which helps avoid misattribution.
+- I handled VPN attribution as a text-evidence conflict-resolution step.
+- First, all onboarding replies containing VPN-related wording were extracted.
+- Then statements were split into positive issue signals ("issues", "resolved") versus negative signals ("no issues").
+- Only one employee explicitly reports prior VPN trouble and later resolution.
+- A separate employee explicitly denies VPN problems, which strengthens the exclusion.
 
 **Key Indicators:**
-- Message text equivalent to: "my issues with the VPN ... have been resolved" attributed to Fernanda Ribeiro.
+- Positive VPN-trouble statement linked to Fernanda.
+- Negative VPN-trouble statement linked to another employee.
 
 ---
 
@@ -154,15 +236,15 @@ min-jun.park, samuel.adu
 ```
 
 **Analysis:**
-- This is supported by correlating employee identity with behavior that contradicts expected onboarding/security processes:
-  - One branch is policy artifact access activity over SMB2 (Group Policy files such as `gpt.ini`).
-  - The other branch is inappropriate handling/exfiltration of sensitive internal material via HTTP upload staging.
-- The overlap of these behaviors is attributed to:
-  - `min-jun.park`
-  - `samuel.adu`
+- I used a two-axis behavior model for policy violation decisions.
+- Axis 1: policy-sensitive access behavior during onboarding period.
+- Axis 2: suspicious data-handling behavior through staged internal upload workflow.
+- A user was marked as violating policy only when identity linkage and behavior linkage existed together.
+- After correlation, two employees remained consistently in the violation set: min-jun.park and samuel.adu.
 
 **Key Indicators:**
-- Correlated communication and endpoint behavior tied to Min-Jun Park and Samuel Adu in insider timeline.
+- Policy-sensitive access events aligned with insider timeline.
+- Identity-linked suspicious upload workflow.
 
 ---
 
@@ -175,12 +257,14 @@ min-jun.park, samuel.adu
 ```
 
 **Analysis:**
-- The insider’s public IP is exposed via application-layer metadata during the job application workflow.
-- In the insider-linked application submission, the headers include `X-Forwarded-For: 203.98.112.47`, which identifies the public IP used by the insider when interacting with the mail system.
-- This matches the grader’s expected “public IP” for the insider’s activity footprint in this lab.
+- I treated public-IP attribution as weak until identity correlation was confirmed.
+- Application-layer metadata exposed a forwarded source value tied to the same identity that later appears in suspicious internal activity.
+- The recovered value `203.98.112.47` appears as direct header evidence.
+- This value is additionally consistent with repeated encrypted-tunnel communication involving the same external IP, increasing confidence.
 
 **Key Indicators:**
-- `X-Forwarded-For: 203.98.112.47` present in the insider-linked application submission.
+- Header evidence: `X-Forwarded-For: 203.98.112.47`.
+- Corroborating network presence of the same external IP in secure-tunnel traffic.
 
 ---
 
@@ -193,18 +277,17 @@ SQLite database containing credentials: Robin Schwartz / 5up3r5Tr0NgP@$$w0rd!
 ```
 
 **Analysis:**
-- The insider used HTTP `POST` uploads (multipart/form-data) from an internal workstation (`10.10.0.26`) to an internal upload service (`10.10.0.254`) as a staging mechanism.
-- One upload is disguised as a “note” but its first bytes match the 7-Zip signature (`37 7A BC AF 27 1C`), proving it is an encrypted archive rather than plain text.
-- A separate upload contains the plaintext password hint: `Don't forget P@$$w0rd!`.
-- Using that password, the encrypted archive decompresses into a SQLite database.
-- Inspecting the database reveals credentials in a `users` table, including:
-  - Name: Robin Schwartz
-  - Password: 5up3r5Tr0NgP@$$w0rd!
+- I validated exfiltration in three passes: transport behavior, content truth, then business impact.
+- Transport pass showed repeated multipart POST uploads to an internal staging endpoint.
+- Content-truth pass used hex signature validation and proved archive content via `37 7A BC AF 27 1C`, rejecting misleading plain-text appearance.
+- Correlation pass linked a separate plaintext clue: `Don't forget P@$$w0rd!`.
+- Decrypting the archive and querying the recovered database confirmed actual sensitive material, not speculative leakage.
+- Final recovered sensitive credential: Robin Schwartz / 5up3r5Tr0NgP@$$w0rd!.
 
 **Key Indicators:**
-- HTTP multipart upload to `10.10.0.254` containing 7-Zip magic bytes (`37 7A BC AF 27 1C`).
-- Separate HTTP multipart upload containing `Don't forget P@$$w0rd!`.
-- Decompression output is a SQLite DB; DB inspection reveals the exact credential pair above.
+- Multipart POST staging workflow with non-routine payloads.
+- Archive signature: `37 7A BC AF 27 1C`.
+- Password clue and decrypted database row containing credential pair.
 
 ---
 
@@ -217,14 +300,17 @@ samuel.adu
 ```
 
 **Analysis:**
-- Attribution is based on convergence of three independent dimensions:
-  1) Employee identity confirmed in internal mail flow (post-hire presence).
-  2) Policy-violation overlap (policy artifact access + operational misuse).
-  3) Exfiltration chain (multipart upload staging + recovered sensitive payload).
-- The only identity that consistently fits the full chain is `samuel.adu`.
+- I used full-chain consistency instead of one-indicator attribution.
+- Candidate identities were filtered through four checkpoints:
+  1) hiring/onboarding identity continuity,
+  2) policy-violation behavior,
+  3) proximity to suspicious staging uploads,
+  4) alignment with insider external-IP evidence.
+- samuel.adu is the only identity that satisfies all checkpoints without contradiction.
+- This makes the attribution robust even if one weak indicator is removed.
 
 **Key Indicators:**
-- Cross-correlation of MAIL workflow + policy-violation set + exfil chain mapping.
+- Cross-correlation across identity timeline, policy behavior, network metadata, and recovered payload content.
 
 ---
 
@@ -272,14 +358,14 @@ The archive password was leaked operationally in a separate upload. Without corr
 ## Lessons Learned
 
 1. Insider investigations require identity, transport, and payload correlation together.
-2. Filename-based assumptions are unreliable during exfil analysis.
+2. Surface-label assumptions are unreliable during exfil analysis.
 3. Password hints can appear in separate low-signal artifacts and must be timeline-linked.
 4. Strong final answers in CTF IR tasks are artifact-driven and reproducible.
 
 ### Defensive Takeaways
 
 1. Flag internal HTTP file-upload services receiving unexplained note/archive uploads.
-2. Detect extension/content mismatches (for example, `.txt` uploads with archive signatures).
+2. Detect label/content mismatches (declared text content carrying archive signatures).
 3. Correlate onboarding-related social engineering requests with later data movement.
 4. Alert on unusual WireGuard relationships to untrusted public infrastructure.
 5. Enforce DLP checks on structured secret material (credential DBs) in outbound flows.
