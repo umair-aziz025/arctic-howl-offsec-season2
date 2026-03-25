@@ -152,7 +152,7 @@ Arctic Howl is a high-stakes cyber defense simulation featuring escalating weekl
 
 ---
 
-### ✅ [Week 4 — Cold Access](./WEEK%204%20-%20Cold%20Access)
+### ✅ [Week 4 — Cold Access](./WEEK%204%20-%20Trusted%20Trouble)
 
 <img src="./assets/trusted-trouble.jpg" alt="Week 4 - Cold Access" width="100%">
 
@@ -168,8 +168,8 @@ Arctic Howl is a high-stakes cyber defense simulation featuring escalating weekl
 - ✅ Insider identified: `samuel.adu`
 
 **Files:**
-- [Investigation Report](./WEEK%204%20-%20Cold%20Access/INVESTIGATION_REPORT.md)
-- [Challenge README](./WEEK%204%20-%20Cold%20Access/README.md)
+- [Investigation Report](./WEEK%204%20-%20Trusted%20Trouble/INVESTIGATION_REPORT.md)
+- [Challenge README](./WEEK%204%20-%20Trusted%20Trouble/README.md)
 
 ---
 
