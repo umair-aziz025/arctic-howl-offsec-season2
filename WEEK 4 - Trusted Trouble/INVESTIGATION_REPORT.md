@@ -1,4 +1,4 @@
-<div align="center"><img src="../assets/cold-access.jpg" alt="Week 4 - Cold Access" width="100%"></div>
+<div align="center"><img src="../assets/trusted-trouble.jpg" alt="Week 4 - Cold Access" width="100%"></div>
 
 ---
 

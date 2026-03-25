@@ -154,7 +154,7 @@ Arctic Howl is a high-stakes cyber defense simulation featuring escalating weekl
 
 ### ✅ [Week 4 — Cold Access](./WEEK%204%20-%20Cold%20Access)
 
-<img src="./assets/cold-access.jpg" alt="Week 4 - Cold Access" width="100%">
+<img src="./assets/trusted-trouble.jpg" alt="Week 4 - Cold Access" width="100%">
 
 **Status:** COMPLETED &nbsp;|&nbsp; **Category:** Insider Threat / PCAP Forensics / Data Exfil Analysis &nbsp;|&nbsp; **Difficulty:** Hard &nbsp;|&nbsp; **Score:** 8/8
 
