@@ -5,8 +5,8 @@
   ### Tundra Realm · Season 2 · Proving Grounds: The Gauntlet
 
   ![Status](https://img.shields.io/badge/Season%202-Active-00EAFF?style=flat-square)
-  ![Challenges](https://img.shields.io/badge/Completed-4%2F5-BAFF29?style=flat-square)
-  ![Score](https://img.shields.io/badge/Score-170%2F170-00EAFF?style=flat-square)
+  ![Challenges](https://img.shields.io/badge/Completed-5%2F5-BAFF29?style=flat-square)
+  ![Latest](https://img.shields.io/badge/Latest%20Week-8%2F8-00EAFF?style=flat-square)
 </div>
 
 ---
@@ -152,13 +152,24 @@ Arctic Howl is a high-stakes cyber defense simulation featuring escalating weekl
 
 ---
 
-### 🔒 [Week 4 — Trusted Trouble](./WEEK%204%20-%20Trusted%20Trouble) *(Coming Soon)*
+### ✅ [Week 4 — Cold Access](./WEEK%204%20-%20Cold%20Access)
 
-<img src="./assets/default.jpg" alt="Week 4 - Trusted Trouble" width="100%">
+<img src="./assets/cold-access.jpg" alt="Week 4 - Cold Access" width="100%">
 
-**Status:** LOCKED &nbsp;|&nbsp; **Difficulty:** Expert
+**Status:** COMPLETED &nbsp;|&nbsp; **Category:** Insider Threat / PCAP Forensics / Data Exfil Analysis &nbsp;|&nbsp; **Difficulty:** Hard &nbsp;|&nbsp; **Score:** 8/8
 
-*The final confrontation. Uncover the truth behind the calculating adversary.*
+**Scenario:** Megacorp One observed post-onboarding insider behavior across MAIL and CLIENT systems. Correlating SMTP workflows with suspicious CLIENT10 upload sessions revealed staged exfiltration and recovered encrypted sensitive data.
+
+**Key Findings:**
+- ✅ Applicants: `9`, accepted: `fernanda.ribeiro, samuel.adu, min-jun.park`
+- ✅ Exfil public IP: `203.98.112.47`
+- ✅ Exfil content recovered from disguised upload chain: encrypted `note3` archive -> `sensitive.db`
+- ✅ Sensitive credential confirmed: `Robin Schwartz / 5up3r5Tr0NgP@$$w0rd!`
+- ✅ Insider identified: `samuel.adu`
+
+**Files:**
+- [Investigation Report](./WEEK%204%20-%20Cold%20Access/INVESTIGATION_REPORT.md)
+- [Challenge README](./WEEK%204%20-%20Cold%20Access/README.md)
 
 ---
 
@@ -170,7 +181,7 @@ Arctic Howl is a high-stakes cyber defense simulation featuring escalating weekl
 | 1 | First Tracks | ✅ Completed | Malware Analysis / PCAP / IR | Easy | 40/40 |
 | 2 | Expanse Surveyor | ✅ Completed | Android Malware / HAR / APK RE | Medium | 70/70 |
 | 3 | Cold Access | ✅ Completed | Browser Exploit / PCAP / Shellcode RE | Hard | 10/10 |
-| 4 | Trusted Trouble | 🔒 Locked | TBA | Expert | — |
+| 4 | Cold Access | ✅ Completed | Insider Threat / PCAP / Exfil Analysis | Hard | 8/8 |
 
 ---
 
@@ -215,6 +226,7 @@ Through these challenges, I'm developing expertise in:
 - ✅ Week 1: Reconstructed full multi-stage Mac malware campaign from PCAP — 6/6 questions
 - ✅ Week 2: Reverse-engineered trojanized Android APK with dynamic DEX payloads — 7/7 questions
 - ✅ Week 3: Reconstructed V8 exploit chain from PCAP and validated in-memory command execution — 10/10 questions
+- ✅ Week 4: Reconstructed insider exfil chain from MAIL + CLIENT captures and recovered stolen DB credentials — 8/8 questions
 - ✅ Discovered novel techniques: triple hex encoding, 7× nested Base64, Git hook worm
 - ✅ Discovered novel techniques: 15× Base64 + XOR C2 obfuscation, PASSIVE_PROVIDER GPS piggyback
 - ✅ Discovered novel techniques: DOMRect/AudioBuffer confusion, TrustedCage dispatch pivot, JIT shellcode command extraction
@@ -247,7 +259,9 @@ arctic-howl-offsec-season2/
 ├── WEEK 3 - Cold Access/
 │   ├── README.md                          # Challenge overview
 │   └── INVESTIGATION_REPORT.md           # Full forensic analysis (10/10 questions)
-└── WEEK 4 - Trusted Trouble/              # Upcoming challenge folder
+└── WEEK 4 - Cold Access/
+  ├── README.md                          # Challenge overview
+  └── INVESTIGATION_REPORT.md           # Full forensic analysis (8/8 questions)
 ```
 
 ---
@@ -320,6 +334,6 @@ If you find these solutions helpful, please consider giving this repository a st
 
 ---
 
-*Last Updated: March 19, 2026*
+*Last Updated: March 25, 2026*
 
 > *"Will you uncover the truth before the storm consumes the Expanse?"*
