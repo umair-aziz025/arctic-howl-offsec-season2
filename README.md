@@ -152,7 +152,7 @@ Arctic Howl is a high-stakes cyber defense simulation featuring escalating weekl
 
 ---
 
-### ✅ [Week 4 — Cold Access](./WEEK%204%20-%20Trusted%20Trouble)
+### ✅ [Week 4 — Trusted Trouble](./WEEK%204%20-%20Trusted%20Trouble)
 
 <img src="./assets/trusted-trouble.jpg" alt="Week 4 - Cold Access" width="100%">
 
@@ -181,7 +181,7 @@ Arctic Howl is a high-stakes cyber defense simulation featuring escalating weekl
 | 1 | First Tracks | ✅ Completed | Malware Analysis / PCAP / IR | Easy | 40/40 |
 | 2 | Expanse Surveyor | ✅ Completed | Android Malware / HAR / APK RE | Medium | 70/70 |
 | 3 | Cold Access | ✅ Completed | Browser Exploit / PCAP / Shellcode RE | Hard | 10/10 |
-| 4 | Cold Access | ✅ Completed | Insider Threat / PCAP / Exfil Analysis | Hard | 8/8 |
+| 4 | Trusted Trouble | ✅ Completed | Insider Threat / PCAP / Exfil Analysis | Hard | 8/8 |
 
 ---
 
@@ -259,7 +259,7 @@ arctic-howl-offsec-season2/
 ├── WEEK 3 - Cold Access/
 │   ├── README.md                          # Challenge overview
 │   └── INVESTIGATION_REPORT.md           # Full forensic analysis (10/10 questions)
-└── WEEK 4 - Cold Access/
+└── WEEK 4 - Trusted Trouble/
   ├── README.md                          # Challenge overview
   └── INVESTIGATION_REPORT.md           # Full forensic analysis (8/8 questions)
 ```

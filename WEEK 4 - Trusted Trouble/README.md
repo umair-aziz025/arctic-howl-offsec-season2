@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="../assets/trusted-trouble.jpg" alt="Week 4 - Cold Access" width="100%">
+  <img src="../assets/trusted-trouble.jpg" alt="Week 4 - Trusted Trouble" width="100%">
 
-  # WEEK 4 — Cold Access
+  # WEEK 4 — Trusted Trouble
   ### OffSec Arctic Howl · MegacorpOne Insider Threat (PCAP Forensics)
 </div>
 

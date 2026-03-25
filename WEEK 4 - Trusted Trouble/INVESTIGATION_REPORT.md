@@ -1,8 +1,8 @@
-<div align="center"><img src="../assets/trusted-trouble.jpg" alt="Week 4 - Cold Access" width="100%"></div>
+<div align="center"><img src="../assets/trusted-trouble.jpg" alt="Week 4 - Trusted Trouble" width="100%"></div>
 
 ---
 
-# Week 4 - Cold Access
+# Week 4 - Trusted Trouble
 ## OffSec Arctic Howl CTF - MegacorpOne Insider Threat
 
 ---
@@ -292,5 +292,5 @@ The archive password was leaked operationally in a separate upload. Without corr
 
 *Writeup completed: March 25, 2026*  
 *Event: OffSec Arctic Howl - Tundra Realm*  
-*Challenge: Week 4 - Cold Access*  
+*Challenge: Week 4 - Trusted Trouble*  
 *Score: 8/8 questions correct*
