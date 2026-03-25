@@ -1395,11 +1395,22 @@ This was critical for correctly decoding GPS coordinates (stored as IEEE 754 dou
 
 ---
 
-**Week 2 Challenge: COMPLETE ✅**
+## Track Conclusion
+
+<div align="center"><img src="../assets/expanse-surveyor-conclusion.jpg" alt="Week 2 Track Conclusion" width="100%"></div>
+
+> The compromise was deliberate.  
+> The Gallery app acted as a carrier, and outbound contact began only after return to a sealed environment.
+
+The resulting cold-access channel behaved with restraint and precision: probing quietly, withdrawing cleanly, and waiting for certainty.
+
+**Those instincts were once defensive. Now they have been repurposed against the realm.**
+
+_Beyond the logs:_ the Yeti continues using Ashka as a vessel to project disruption across the Cascade Expanse.
 
 ---
 
 *Writeup completed: March 12, 2026*  
 *Event: OffSec Arctic Howl - Tundra Realm*  
-*Challenge: Week 2 -  Expanse Surveyor*  
+*Challenge: Week 2 - Expanse Surveyor*  
 *Score: 7/7 questions correct*

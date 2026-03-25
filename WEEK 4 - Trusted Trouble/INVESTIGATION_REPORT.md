@@ -367,12 +367,23 @@ The archive password was leaked operationally in a separate upload. Without corr
 1. Flag internal HTTP file-upload services receiving unexplained note/archive uploads.
 2. Detect label/content mismatches (declared text content carrying archive signatures).
 3. Correlate onboarding-related social engineering requests with later data movement.
-4. Alert on unusual WireGuard relationships to untrusted public infrastructure.
+4. Alert on unusual encrypted-tunnel relationships to untrusted public infrastructure.
 5. Enforce DLP checks on structured secret material (credential DBs) in outbound flows.
 
 ---
 
-**Week 4 Challenge: COMPLETE ✅**
+## Track Conclusion
+
+<div align="center"><img src="../assets/trusted-trouble-conclusion.jpeg" alt="Week 4 Track Conclusion" width="100%"></div>
+
+> The orchestration has fallen.  
+> As control loops collapsed, Ashka broke the link and shattered the orchestration core.
+
+The Snowcapped Yeti lost operational control, and the experiment was contained before it could consume both Ashka and the Cascade Expanse.
+
+**Ashka survived changed, but no longer controlled, and now stands watch at the AI frontier.**
+
+_Beyond the logs:_ the conflict shifted from hunting attackers to preempting machine-born threats.
 
 ---
 

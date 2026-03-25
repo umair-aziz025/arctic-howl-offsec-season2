@@ -495,7 +495,18 @@ Many public browser exploit demos use `calc.exe` as visual proof. This challenge
 
 ---
 
-**Week 3 Challenge: COMPLETE ✅**
+## Track Conclusion
+
+<div align="center"><img src="../assets/cold-access-conclusion.jpg" alt="Week 3 Track Conclusion" width="100%"></div>
+
+> The access channel was not idle.  
+> Synchronization heartbeat patterns matched Ashka, confirming she was alive.
+
+An exposed coordinate led to a hidden portal beyond an icy waterfall, where Ashka appeared altered and weaponized.
+
+**The experiment reached confrontation stage. The final battle began.**
+
+_Beyond the logs:_ the OffSec Legends emerged as the last line before total loss.
 
 ---
 

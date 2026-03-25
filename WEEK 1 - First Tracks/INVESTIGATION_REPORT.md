@@ -939,7 +939,18 @@ The attack chain showcases real-world techniques used by state-sponsored and adv
 - Auditing Git configuration and hooks
 - Implementing defense-in-depth strategies
 
-**Week 1 Challenge: COMPLETE ✅**
+## Track Conclusion
+
+<div align="center"><img src="../assets/first-tracks-conclusion.jpg" alt="Week 1 Track Conclusion" width="100%"></div>
+
+> The Traffic Spike was not random.  
+> The system still functions, but traces show intentional movement using trust as cover.
+
+Whatever moved through this environment understood how to blend in, move quietly, and disappear before detection.
+
+**Something is moving through the Cascade Expanse. And it is learning.**
+
+_Beyond the logs:_ Ashka remains in stasis while her instincts are modeled into machine hunting frameworks.
 
 ---
 
